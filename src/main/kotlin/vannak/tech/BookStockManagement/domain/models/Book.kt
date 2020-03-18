@@ -1,5 +1,8 @@
 package vannak.tech.BookStockManagement.domain.models
 
+import vannak.tech.BookStockManagement.api.DTOs.BookDTO
+import vannak.tech.BookStockManagement.api.DTOs.CreateBookDTO
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -7,7 +10,7 @@ data class Book (
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         @Column(name = "id")
-        var id:Long?,
+        var id:Long=0,
         @Column(name = "title")
         var title:String?,
         @Column(name = "isbn")
@@ -25,9 +28,46 @@ data class Book (
         @Column(name = "status")
         var status:String?,
         @Column(name = "publish_year")
-        var publishYear:Int?
+        var publishYear:Int?,
+        @Column(name = "created_at")
+        var createdAt:LocalDateTime = LocalDateTime.now(),
+        @Column(name = "updated_at")
+        var updatedAt:LocalDateTime = LocalDateTime.now()
 ) {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     lateinit var category: Category
+
+    fun toDTO(): BookDTO = BookDTO(
+            id = id,
+            title = title,
+            isbn = isbn,
+            author = author,
+            publisher = publisher,
+            edition = edition,
+            price = price,
+            quantity = quantity,
+            status = status,
+            publisherYear = publishYear,
+            category = category.id
+    )
+
+    companion object{
+        fun fromDTO( createBookDTO: CreateBookDTO,category: Category ):Book{
+            var book = Book(
+                    title = createBookDTO.title,
+                    isbn = createBookDTO.isbn,
+                    author = createBookDTO.author,
+                    publisher = createBookDTO.publisher,
+                    edition = createBookDTO.edition,
+                    price = createBookDTO.price,
+                    quantity = createBookDTO.quantity,
+                    status = createBookDTO.status,
+                    publishYear = createBookDTO.publisherYear
+            )
+            book.category = category
+            return book
+        }
+
+    }
 }
