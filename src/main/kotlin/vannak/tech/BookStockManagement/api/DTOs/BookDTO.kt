@@ -1,6 +1,8 @@
 package vannak.tech.BookStockManagement.api.DTOs
 
 import vannak.tech.BookStockManagement.domain.models.Category
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.Pattern
 
 data class BookDTO (
         var id:Long?,
@@ -17,15 +19,25 @@ data class BookDTO (
 )
 
 data class CreateBookDTO(
-        var id: Long?,
+        @field:NotEmpty
         var title: String?,
+        @field:NotEmpty
+        @field:Pattern(regexp = "[0-9]{3}-[0-9]-[0-9]{2}-[0-9]{6}-[0-9]]")
         var isbn: String?,
+        @field:NotEmpty
         var author: String?,
+        @field:NotEmpty
         var publisher: String?,
+        @field:NotEmpty
         var edition: Int?,
+        @field:NotEmpty
         var price: Float?,
+        @field:NotEmpty
         var quantity: Int?,
+        @field:NotEmpty
         var status: String?,
+        @field:NotEmpty
         var publisherYear: Int?,
+        @field:NotEmpty
         var category: Long?
 )
