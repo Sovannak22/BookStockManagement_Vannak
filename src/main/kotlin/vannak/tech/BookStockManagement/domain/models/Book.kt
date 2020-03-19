@@ -2,6 +2,7 @@ package vannak.tech.BookStockManagement.domain.models
 
 import vannak.tech.BookStockManagement.api.DTOs.BookDTO
 import vannak.tech.BookStockManagement.api.DTOs.CreateBookDTO
+import vannak.tech.BookStockManagement.api.DTOs.UpdateBookDTO
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -69,5 +70,21 @@ data class Book (
             return book
         }
 
+        fun fromDTO(updateBookDTO: UpdateBookDTO, category: Category?, originalBook: Book ):Book{
+            var book = Book(
+                    id = originalBook.id,
+                    title = updateBookDTO.title?:originalBook.title,
+                    isbn = updateBookDTO.isbn?:originalBook.isbn,
+                    author = updateBookDTO.author?:originalBook.author,
+                    publisher = updateBookDTO.publisher?:originalBook.publisher,
+                    edition = updateBookDTO.edition?:originalBook.edition,
+                    price = updateBookDTO.price?:originalBook.price,
+                    quantity = updateBookDTO.quantity?:originalBook.quantity,
+                    status = updateBookDTO.status?:originalBook.status,
+                    publishYear = updateBookDTO.publisherYear?:originalBook.publishYear
+            )
+            book.category = category?:originalBook.category
+            return book
+        }
     }
 }
