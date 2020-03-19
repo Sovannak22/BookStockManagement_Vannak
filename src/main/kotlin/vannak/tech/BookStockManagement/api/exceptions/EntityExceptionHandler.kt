@@ -1,5 +1,6 @@
 package vannak.tech.BookStockManagement.api.exceptions
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -11,8 +12,11 @@ import org.springframework.web.context.request.WebRequest
 @ControllerAdvice
 class EntityExceptionHandler {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     @ExceptionHandler(Exception::class)
     final fun handleAllExceptions(e : Exception, request:WebRequest): ResponseEntity<ErrorResponse>{
+        logger.error("Error Log: ", e)
         var errorResponse: ErrorResponse = ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, null)
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
 

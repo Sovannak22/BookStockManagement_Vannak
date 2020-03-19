@@ -26,6 +26,9 @@ class BookService(
                 pageable = PageRequest.of(page,size)
                 val zero:Long = 0
                 var books = when {
+                    (q==null && categoryId==(zero)) -> {
+                        repository.findAll(pageable)
+                    }
                     categoryId==(zero) -> {
                             repository.findAllWithParam(q!!,pageable)
                     }
