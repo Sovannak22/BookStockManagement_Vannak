@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import vannak.tech.BookStockManagement.api.DTOs.CreateBookDTO
 import vannak.tech.BookStockManagement.api.DTOs.UpdateBookDTO
+import vannak.tech.BookStockManagement.api.exceptions.IDNotFoundException
 import vannak.tech.BookStockManagement.domain.models.Book
 import vannak.tech.BookStockManagement.repositories.BookRepository
 import vannak.tech.BookStockManagement.repositories.CategoryRepository
+import java.lang.NullPointerException
 
 @Component
 class BookService(
@@ -41,18 +43,27 @@ class BookService(
         }
 
         fun create(createBookDTO: CreateBookDTO):ResponseEntity<Any>{
-                var category = categoryRepository.findById(createBookDTO.category!!)
-                var book = repository.save(Book.fromDTO(createBookDTO,category!!))
-                return ResponseEntity.ok(book.toDTO())
+                try {
+                    val category = categoryRepository.findById(createBookDTO.category!!)
+                    val book = repository.save(Book.fromDTO(createBookDTO,category!!))
+                    return ResponseEntity.ok(book.toDTO())
+                }catch (e:NullPointerException){
+                    throw IDNotFoundException("${createBookDTO.category}")
+                }
         }
 
         fun show(id:Long):ResponseEntity<Any>{
-                return ResponseEntity.ok(repository.findById(id)!!)
+            try {
+                val book = repository.findById(id)
+                return ResponseEntity.ok(book!!)
+            }catch (e:NullPointerException){
+                throw IDNotFoundException("$id")
+            }
         }
 
         fun update(updateBookDTO: UpdateBookDTO,id: Long):ResponseEntity<Any>{
-            var category = if (updateBookDTO.category != null)categoryRepository.findById(updateBookDTO.category!!)else null
-            var originalBook = repository.findById(id)
+            val category = if (updateBookDTO.category != null)categoryRepository.findById(updateBookDTO.category!!)else null
+            val originalBook = repository.findById(id)
             return ResponseEntity.ok(repository.save(Book.fromDTO(updateBookDTO,category,originalBook!!)))
         }
 }
