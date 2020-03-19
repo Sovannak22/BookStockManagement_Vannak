@@ -14,8 +14,8 @@ class BookController (
 ){
 
     @GetMapping
-    fun index(@RequestParam(defaultValue = "0",name = "page")page:Int, @RequestParam(defaultValue = "5",name = "size") size:Int, @RequestParam(defaultValue = "",name = "q")q:String, @RequestParam(defaultValue = "",name = "category")categoryId:Long):ResponseEntity<Any>{
-        return ResponseEntity.ok(service.index(q,categoryId,page,size))
+    fun index(@RequestParam(name = "q",required = false) q:String?,@RequestParam(name = "page") page:Int,@RequestParam(name = "size")size:Int,@RequestParam(name = "category_id",defaultValue = "0")category_id:Long):ResponseEntity<Any>{
+        return ResponseEntity.ok(service.index(category_id,page,size,q))
     }
 
     @PostMapping

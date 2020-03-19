@@ -19,17 +19,29 @@ class BookService(
 ) {
         lateinit var pageable: Pageable
 
-        fun index(q:String,categoryId:Long,page:Int,size:Int):ResponseEntity<Any>{
-                val category = categoryRepository.findById(categoryId)
+        fun index(categoryId:Long, page:Int, size:Int, q: String?):ResponseEntity<Any>{
                 pageable = PageRequest.of(page,size)
-                return ResponseEntity.ok(
-                        repository.findAll(q,category!!,pageable)
-                )
+                val zero:Long = 0
+                var books = when {
+                    categoryId==(zero) -> {
+                            repository.findAllWithParam(q!!,pageable)
+                    }
+                    q==null -> {
+                            val category = categoryRepository.findById(categoryId)
+                            repository.findAllWithParam(category,pageable)
+                    }
+                    else -> {
+
+                            val category = categoryRepository.findById(categoryId)
+                            repository.findAllWithParam(q,category,pageable)
+                    }
+                }
+                return ResponseEntity.ok(books)
         }
 
         fun create(createBookDTO: CreateBookDTO):ResponseEntity<Any>{
                 var category = categoryRepository.findById(createBookDTO.category!!)
                 var book = repository.save(Book.fromDTO(createBookDTO,category!!))
-                return ResponseEntity.ok(book)
+                return ResponseEntity.ok(book.toDTO())
         }
 }

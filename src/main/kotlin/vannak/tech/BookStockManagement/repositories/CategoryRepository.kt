@@ -5,5 +5,5 @@ import vannak.tech.BookStockManagement.domain.models.Category
 import java.util.*
 
 interface CategoryRepository: JpaRepository<Category,Int> {
-    fun findById(id: Long): Category?
+    fun findById(id: Long): Category
 }
