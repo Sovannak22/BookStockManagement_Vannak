@@ -76,6 +76,10 @@ class BookService(
         fun update(updateBookDTO: UpdateBookDTO,id: Long):ResponseEntity<Any>{
             val category = if (updateBookDTO.category != null)categoryRepository.findById(updateBookDTO.category!!)else null
             val originalBook = repository.findById(id)
-            return ResponseEntity.ok(repository.save(Book.fromDTO(updateBookDTO,category,originalBook!!)))
+            return ResponseEntity.ok(
+                    repository.save(
+                            Book.fromDTO(updateBookDTO,category,originalBook!!)
+                    ).toDTO()
+            )
         }
 }
