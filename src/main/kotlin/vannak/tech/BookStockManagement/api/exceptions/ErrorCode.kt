@@ -8,6 +8,7 @@ enum class ErrorCode(val code: Int, val message:String){
     INTERNAL_SERVER_ERROR(1,"Internal Server Error"),
     ID_NOT_FOUND(2,"ID Not found: %s"),
     INVALID_INPUT_FORMAT(3,"It is invalid format: %s"),
-    MISSING_PARAMETER_FOR_REQUEST(4,"Missing Parameter %s for request")
+    MISSING_PARAMETER_FOR_REQUEST(4,"Missing Parameter %s for request"),
+    DATA_INTEGRITY_VIOLATION(5,"Couse not exceute statement cause by %s")
 
 }

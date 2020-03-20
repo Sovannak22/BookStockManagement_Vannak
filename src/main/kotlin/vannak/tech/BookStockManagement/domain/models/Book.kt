@@ -27,7 +27,7 @@ data class Book (
         @Column(name = "quantity")
         var quantity:Int?,
         @Column(name = "status")
-        var status:String?,
+        var status:Int?,
         @Column(name = "publish_year")
         var publishYear:Int?,
         @Column(name = "created_at")
@@ -50,7 +50,9 @@ data class Book (
             quantity = quantity,
             status = status,
             publisherYear = publishYear,
-            category = category.id
+            category = category.id,
+            createdAt = createdAt,
+            updatedAt = updatedAt
     )
 
     companion object{

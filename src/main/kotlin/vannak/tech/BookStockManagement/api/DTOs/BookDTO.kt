@@ -1,5 +1,6 @@
 package vannak.tech.BookStockManagement.api.DTOs
 
+import java.time.LocalDateTime
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Pattern
 
@@ -12,9 +13,11 @@ data class BookDTO (
         var edition:Int?,
         var price:Float?,
         var quantity:Int?,
-        var status:String?,
+        var status:Int?,
         var publisherYear:Int?,
-        var category:Long?
+        var category:Long?,
+        var createdAt:LocalDateTime,
+        var updatedAt:LocalDateTime
 )
 
 data class CreateBookDTO(
@@ -38,7 +41,7 @@ data class CreateBookDTO(
         var quantity: Int?,
 
         @field:NotEmpty
-        var status: String?,
+        var status: Int?,
 
         var publisherYear: Int?,
 
@@ -61,7 +64,7 @@ data class UpdateBookDTO(
 
         var quantity: Int?,
 
-        var status: String?,
+        var status: Int?,
 
         var publisherYear: Int?,
 

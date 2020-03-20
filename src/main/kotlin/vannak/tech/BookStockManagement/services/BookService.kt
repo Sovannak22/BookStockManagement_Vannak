@@ -20,6 +20,7 @@ class BookService(
         @Autowired
         var categoryRepository: CategoryRepository
 ) {
+
         lateinit var pageable: Pageable
 
         fun index(categoryId:Long, page:Int, size:Int, q: String?):ResponseEntity<Any>{
@@ -27,21 +28,29 @@ class BookService(
                 val zero:Long = 0
                 var books = when {
                     (q==null && categoryId==(zero)) -> {
+
                         repository.findAll(pageable)
+
                     }
                     categoryId==(zero) -> {
+
                             repository.findAllWithParam(q!!,pageable)
+
                     }
                     q==null -> {
+
                             val category = categoryRepository.findById(categoryId)
                             repository.findAllWithParam(category!!,pageable)
+
                     }
                     else -> {
 
                             val category = categoryRepository.findById(categoryId)
                             repository.findAllWithParam(q,category!!,pageable)
+
                     }
                 }
+
                 return ResponseEntity.ok(books)
         }
 
@@ -58,7 +67,7 @@ class BookService(
         fun show(id:Long):ResponseEntity<Any>{
             try {
                 val book = repository.findById(id)
-                return ResponseEntity.ok(book!!)
+                return ResponseEntity.ok(book!!.toDTO())
             }catch (e:NullPointerException){
                 throw IDNotFoundException("$id")
             }
