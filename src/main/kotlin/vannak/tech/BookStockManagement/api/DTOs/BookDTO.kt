@@ -40,7 +40,6 @@ data class CreateBookDTO(
 
         var quantity: Int?,
 
-        @field:NotEmpty
         var status: Int?,
 
         var publisherYear: Int?,
