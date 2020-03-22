@@ -39,14 +39,18 @@ class BookService(
                     }
                     q==null -> {
 
-                            val category = categoryRepository.findById(categoryId)
-                            repository.findAllWithParam(category!!,pageable)
+                            val category = categoryRepository.findById(categoryId).orElseThrow{
+                                IDNotFoundException("$categoryId")
+                            }
+                            repository.findAllWithParam(category,pageable)
 
                     }
                     else -> {
 
-                            val category = categoryRepository.findById(categoryId)
-                            repository.findAllWithParam(q,category!!,pageable)
+                            val category = categoryRepository.findById(categoryId).orElseThrow {
+                                IDNotFoundException("$categoryId")
+                            }
+                            repository.findAllWithParam(q,category,pageable)
 
                     }
                 }
@@ -55,22 +59,19 @@ class BookService(
         }
 
         fun create(createBookDTO: CreateBookDTO):ResponseEntity<Any>{
-                try {
-                    val category = categoryRepository.findById(createBookDTO.category!!)
-                    val book = repository.save(Book.fromDTO(createBookDTO,category!!))
-                    return ResponseEntity.ok(book.toDTO())
-                }catch (e:NullPointerException){
-                    throw IDNotFoundException("${createBookDTO.category}")
+                val category = categoryRepository.findById(createBookDTO.category!!).orElseThrow {
+                    IDNotFoundException("${createBookDTO.category}")
                 }
+                val book = repository.save(Book.fromDTO(createBookDTO,category))
+                return ResponseEntity.ok(book.toDTO())
         }
 
         fun show(id:Long):ResponseEntity<Any>{
-            try {
-                val book = repository.findById(id)
-                return ResponseEntity.ok(book!!.toDTO())
-            }catch (e:NullPointerException){
-                throw IDNotFoundException("$id")
+            val book = repository.findById(id).orElseThrow{
+                IDNotFoundException("$id")
             }
+            return ResponseEntity.ok(book.toDTO())
+
         }
 
         fun update(updateBookDTO: UpdateBookDTO,id: Long):ResponseEntity<Any>{
@@ -78,7 +79,7 @@ class BookService(
             val originalBook = repository.findById(id)
             return ResponseEntity.ok(
                     repository.save(
-                            Book.fromDTO(updateBookDTO,category,originalBook!!)
+                            Book.fromDTO(updateBookDTO,category!!.get(),originalBook.get())
                     ).toDTO()
             )
         }

@@ -17,11 +17,9 @@ class CategoryService (
     }
 
     fun show(id:Long):ResponseEntity<Any>{
-        try {
-            return ResponseEntity.ok(categoryRepository.findById(id)!!)
-        }catch (e:NullPointerException){
-            throw IDNotFoundException("$id")
-        }
+            return ResponseEntity.ok(categoryRepository.findById(id).orElseThrow {
+                IDNotFoundException("$id")
+            })
     }
 
     fun create(category: Category):ResponseEntity<Any>{
