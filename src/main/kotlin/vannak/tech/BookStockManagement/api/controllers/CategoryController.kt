@@ -11,10 +11,6 @@ import vannak.tech.BookStockManagement.services.CategoryService
 class CategoryController (
         @Autowired var categoryService: CategoryService
 ){
-    @PostMapping
-    fun create(@RequestBody category: Category):ResponseEntity<Any>{
-        return ResponseEntity.ok(categoryService.create(category))
-    }
     @GetMapping
     fun index():ResponseEntity<Any>{
         return ResponseEntity.ok(categoryService.index())

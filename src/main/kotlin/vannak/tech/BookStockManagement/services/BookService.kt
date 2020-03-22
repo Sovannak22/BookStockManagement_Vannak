@@ -23,8 +23,8 @@ class BookService(
 
         lateinit var pageable: Pageable
 
-        fun index(categoryId:Long, page:Int, size:Int, q: String?):ResponseEntity<Any>{
-                pageable = PageRequest.of(page,size)
+        fun index(categoryId:Long, page:Int, limit:Int, q: String?):ResponseEntity<Any>{
+                pageable = PageRequest.of(page,limit)
                 val zero:Long = 0
                 var books = when {
                     (q==null && categoryId==(zero)) -> {

@@ -15,8 +15,8 @@ class BookController (
 ){
 
     @GetMapping
-    fun index(@RequestParam(name = "q",required = false) q:String?,@RequestParam(name = "page",defaultValue = "0") page:Int,@RequestParam(name = "size",defaultValue = "5")size:Int,@RequestParam(name = "category_id",defaultValue = "0")category_id:Long):ResponseEntity<Any>{
-        return ResponseEntity.ok(service.index(category_id,page,size,q))
+    fun index(@RequestParam(name = "q",required = false) q:String?,@RequestParam(name = "limit",defaultValue = "0") page:Int,@RequestParam(name = "size",defaultValue = "5")limit:Int,@RequestParam(name = "category_id",defaultValue = "0")category_id:Long):ResponseEntity<Any>{
+        return ResponseEntity.ok(service.index(category_id,page,limit,q))
     }
 
     @PostMapping
@@ -33,8 +33,4 @@ class BookController (
     fun update(@Valid @RequestBody updateBookDTO: UpdateBookDTO,@PathVariable id: Long):ResponseEntity<Any>{
         return ResponseEntity.ok(service.update(updateBookDTO,id))
     }
-//    @PutMapping("/{id}")
-//    fun update():ResponseEntity<Any>{
-////        return ResponseEntity.ok()
-//    }
 }
