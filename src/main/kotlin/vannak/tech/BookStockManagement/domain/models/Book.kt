@@ -56,7 +56,8 @@ data class Book (
     )
 
     companion object{
-        fun fromDTO( createBookDTO: CreateBookDTO,category: Category ):Book{
+
+        fun fromDTO(createBookDTO: CreateBookDTO, category: Category ):Book{
             var book = Book(
                     title = createBookDTO.title,
                     isbn = createBookDTO.isbn,
