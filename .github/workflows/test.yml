@@ -18,4 +18,4 @@ jobs:
       - name: Integration test
         with:
           repository: soramitsukhmer/fast-api-tests
-        run: ./gradlew test
+          run: ./gradlew test
