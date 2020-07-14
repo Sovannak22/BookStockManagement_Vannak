@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    branches: [Add-git_action]
+    branches: [Add_git_action]
 
 jobs:
   build:
