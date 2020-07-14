@@ -16,5 +16,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.4
+      - name: allow permissino
+        run: chmod +x gradlew
       - name: Integration test
         run: ./gradlew test
