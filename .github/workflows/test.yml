@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-
       - uses: actions/checkout@v2
         with:
             repository: Sovannak22/Internship-Soramitsu
