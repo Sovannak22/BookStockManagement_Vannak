@@ -16,7 +16,6 @@ jobs:
         with:
           java-version: 11.0.4
       - name: Integration test
-          uses: actions/checkout@v2
-          with:
-            repository: soramitsukhmer/fast-api-tests
-            run: ./gradlew test
+        with:
+          repository: soramitsukhmer/fast-api-tests
+        run: ./gradlew test
